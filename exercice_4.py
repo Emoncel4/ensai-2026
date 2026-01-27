@@ -32,9 +32,13 @@ while start < datetime.datetime(2025, 11, 30):
 client = bigquery.Client(project="ensai-2026")
 sql = """
 CREATE OR REPLACE EXTERNAL TABLE christophe.taxi
+WITH PARTITION COLUMNS (
+  month STRING
+)
 OPTIONS (
-    format = 'PARQUET',
-    uris = ['gs://christophe-2026/taxi/month=*/yellow_tripdata.parquet']
+  format = 'PARQUET',
+  uris = ['gs://christophe-2026/taxi/month=*/yellow_tripdata.parquet'],
+  hive_partition_uri_prefix = 'gs://christophe-2026/taxi/'
 );
 """
 
